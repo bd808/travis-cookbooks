@@ -13,4 +13,3 @@ FoodCritic::Rake::LintTask.new do |t|
 end
 
 RSpec::Core::RakeTask.new
-

@@ -9,4 +9,5 @@ tmp/*
 /.rvmrc
 /.bundle
 /.rspec
-
+/.vagrant
+/.ruby-version

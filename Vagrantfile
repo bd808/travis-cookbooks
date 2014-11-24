@@ -11,17 +11,26 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # https://github.com/travis-ci/travis-images/blob/master/lib/travis/cloud_images/vm_provisioner.rb
   config.omnibus.chef_version = :latest
 
+  config.vm.network "private_network", type: "dhcp"
+
   # Enable Vagrant plugins like vagrant-cachier and vagrant-vbguest
   if Vagrant.has_plugin?("vagrant-cachier")
     config.cache.scope = :box
+    config.cache.synced_folder_opts = {
+        type: :nfs,
+        mount_options: ['rw', 'vers=3', 'tcp', 'nolock', 'noatime', 'async']
+    }
   end
-  # if Vagrant.has_plugin?("vagrant-vbguest")
-  #   config.vbguest.auto_update = true
-  # end
+
+  if Vagrant.has_plugin?("vagrant-vbguest")
+    config.vbguest.auto_update = true
+  end
 
   # VM tuning hints:
-  # - A big VM (RAM > 1024M) is recommended to speed up compilation/install time
-  # - A small VM (RAM < 1024M) is usually enough to verify a little set of isolated cookbooks
+  # - A big VM (RAM > 1024M) is recommended to speed up compilation/install
+  #   time
+  # - A small VM (RAM < 1024M) is usually enough to verify a little set
+  #   of isolated cookbooks
   config.vm.provider "virtualbox" do |vb|
     vb.memory = 2048
     vb.cpus = 4
@@ -38,26 +47,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     ubuntu.vm.box = "ubuntu/precise64"
   end
 
-  # Work in Progress: Support of Ubuntu 14.04LTS (not supported yet)
-  # Pull requests are welcome on https://github.com/travis-ci/travis-cookbooks/tree/ha-feature-trusty branch
-  config.vm.define :trusty64, autostart: false do |ubuntu|
-    ubuntu.vm.box = "ubuntu/trusty64"
-  end
-
-  # Work in Progress: Support of Windows 8 (not supported yet)
-  config.vm.define :win8, autostart: false do |win|
-    win.vm.box = "win8"
-    win.vm.communicator = "winrm"
-    win.vm.guest = :windows
-
-    # Port forward WinRM and RDP
-    win.vm.network :forwarded_port, guest: 3389, host: 3389
-    win.vm.network :forwarded_port, guest: 5985, host: 5985, id: "winrm", auto_correct: true
-
-    win.vm.provider "virtualbox" do |v|
-      v.gui = true # not necessary, but I like spying on Windows while I'm getting things figured out
-    end
-  end
+  config.vm.provision "shell",
+    inline: "sudo apt-get update"
 
   config.vm.provision "chef_solo" do |chef|
     chef.log_level      = :info
@@ -67,21 +58,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     chef.roles_path = "roles"
     chef.add_role "worker_standard"
 
-    # Alternatively, you can disable `chef.add_role` above and specify a smaller run list:
-    # chef.add_recipe "apt"
-    # chef.add_recipe "travis_build_environment"
-    # chef.add_recipe "java"
-    # chef.add_recipe "..."
-    #
-    # chef.json = {
-    #   "apt" => {
-    #     :mirror => 'de'
-    #   },
-    #   "travis_build_environment" => {
-    #     "user" => 'vagrant'
-    #   },
-    # }
-
+    # php stuff
+    # https://github.com/travis-ci/travis-images/blob/master/templates/worker.php.yml
+    chef.add_recipe "php::multi"
+    chef.add_recipe "composer"
+    chef.add_recipe "sweeper"
   end
 
+  config.vm.synced_folder '../xhprof', '/opt/xhprof',
+      type: :nfs,
+      mount_options: ['rw', 'vers=3', 'tcp', 'nolock', 'noatime', 'async']
 end

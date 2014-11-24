@@ -31,38 +31,38 @@ run_list(
   'recipe[travis_build_environment]',
   'recipe[apt]',
   'recipe[build-essential]',
-  'recipe[clang::tarball]',
-  'recipe[golang::multi]',
+#  'recipe[clang::tarball]',
+#  'recipe[golang::multi]',
   'recipe[networking_basic]',
   'recipe[openssl]',
   'recipe[sysctl]',
   'recipe[git::ppa]',
-  'recipe[mercurial]',
-  'recipe[bazaar]',
-  'recipe[subversion]',
-  'recipe[scons]',
+#  'recipe[mercurial]',
+#  'recipe[bazaar]',
+#  'recipe[subversion]',
+#  'recipe[scons]',
   'recipe[unarchivers]',
   'recipe[md5deep]',
-  'recipe[jq]',
+#  'recipe[jq]',
   #
   # additional libraries needed to run headless WebKit,
   # build parsers, for ossp-uuid to work and so on
   #
-  'recipe[libqt4]',
+#  'recipe[libqt4]',
   'recipe[libgdbm]',
   'recipe[libncurses]',
   'recipe[libossp-uuid]',
-  'recipe[libffi]',
-  'recipe[ragel]',
+#  'recipe[libffi]',
+#  'recipe[ragel]',
   'recipe[imagemagick]',
-  'recipe[mingw32]',
+#  'recipe[mingw32]',
   'recipe[libevent]',
   #
   # JDK and related build toolchain
   #
-  'recipe[java]',
-  'recipe[ant]',
-  'recipe[maven]',
+#  'recipe[java]',
+#  'recipe[ant]',
+#  'recipe[maven]',
   #
   # Needs to be installed before RVM
   #
@@ -77,46 +77,46 @@ run_list(
   #
   # Python and pip
   #
-  'recipe[python]',
-  'recipe[python::devshm]',
-  'recipe[python::pip]',
+#  'recipe[python]',
+#  'recipe[python::devshm]',
+#  'recipe[python::pip]',
   #
   # Node.js
   #
-  'recipe[nodejs::multi]',
+#  'recipe[nodejs::multi]',
   #
   # Data stores
   #
   'recipe[mysql::server_on_ramfs]',
-  'recipe[postgresql]',
-  'recipe[redis]',
-  'recipe[riak]',
-  'recipe[mongodb]',
-  'recipe[couchdb::ppa]',
-  'recipe[memcached]',
-  'recipe[neo4j-server::tarball]',
-  'recipe[cassandra::tarball]',
+#  'recipe[postgresql]',
+#  'recipe[redis]',
+#  'recipe[riak]',
+#  'recipe[mongodb]',
+#  'recipe[couchdb::ppa]',
+#  'recipe[memcached]',
+#  'recipe[neo4j-server::tarball]',
+#  'recipe[cassandra::tarball]',
   #
   # Messaging
   #
-  'recipe[rabbitmq::with_management_plugin]',
-  'recipe[zeromq::ppa]',
+#  'recipe[rabbitmq::with_management_plugin]',
+#  'recipe[zeromq::ppa]',
   #
   # Search
   #
-  'recipe[elasticsearch]',
-  'recipe[sphinx::all]',
+#  'recipe[elasticsearch]',
+#  'recipe[sphinx::all]',
   #
   # Headless WebKit, browsers, Selenium toolchain, etc
   #
-  'recipe[xserver]',
-  'recipe[firefox::tarball]',
-  'recipe[chromium]',
-  'recipe[phantomjs::tarball]',
+#  'recipe[xserver]',
+#  'recipe[firefox::tarball]',
+#  'recipe[chromium]',
+#  'recipe[phantomjs::tarball]',
   #
   # Debugging & support
   #
-  'recipe[emacs::nox]',
+#  'recipe[emacs::nox]',
   'recipe[vim]',
   'recipe[sweeper]'
 )
